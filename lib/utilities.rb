@@ -13,8 +13,6 @@ class Utilities
     table_format = "first name    last name    Phone umber\n"
 
     contacts.each_with_index do |contact, idx|
-      next unless contact
-
       table_format += contact.first_name + '           ' + contact.last_name + '      ' + contact.phone_number
       table_format += "\n"
     end
@@ -23,7 +21,7 @@ class Utilities
   end
 
   def valid_mobile_no?(phone_number)
-    return !phone_number.nil? 
+    return false if phone_number.nil? 
     phone_number.match?(/^[789]\d{9}$/)
   end
 

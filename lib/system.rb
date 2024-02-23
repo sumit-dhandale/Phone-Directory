@@ -1,6 +1,7 @@
 require_relative 'dependencies'
 class System
   attr_accessor :directory, :utilities
+
   def initialize
     @directory = Directory.new
     @utilities = Utilities.new
@@ -10,15 +11,17 @@ class System
     loop do
       puts "1. Add new contact"
       puts "2. Update contact"
-      puts "3 .search contact"
+      puts "3. Search contact"
+      puts "4. Show all contacts"
+      puts "5. Exit"
       choice = utilities.receive_user_input
       puts choice.to_str
       case choice
       when "1"
         puts "Enter first name, last name and Phone number"
         input = gets.chomp.split
-        res = utilities.valid_mobile_no?(input[2]) && utilities.valid_name?(input[0]) && utilities.valid_name?(input[1])
-        if res
+        is_valid_record = utilities.valid_mobile_no?(input[2]) && utilities.valid_name?(input[0]) && utilities.valid_name?(input[1])
+        if is_valid_record
           directory.add_new_contact(input[0], input[1], input[2])
         else
           utilities.print_result "Not a valid Record"
@@ -41,7 +44,16 @@ class System
         type_of_key = input == "1" ? "first_name" : input == "2" ? "last_name" : "phone_number"
         puts "Enter key to search"
         key = utilities.receive_user_input
-        directory.search(key, type_of_search, type_of_key)
+        result = directory.search(key, type_of_search, type_of_key)
+        puts "**************************************Result******************************************"
+        puts utilities.print_table(result)
+        puts "***************************************************************************************"
+      when "4"
+        puts utilities.print_table(@directory.contacts)
+      when "5"
+        break
+      else
+        puts "Enter a valid option"
       end
     end
   end

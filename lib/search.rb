@@ -1,49 +1,17 @@
 module Search
-  def complete_search_by_first_name(key)
+  def complete_search_by(attribute, key)
     key = downcase_key(key)
-    contacts = @contacts.select { |contact| contact.first_name.downcase == key }
-    puts contacts
-    return contacts
+    @contacts.select { |contact| contact.send(attribute).downcase == key }
   end
 
-  def complete_search_by_last_name(key)
+  def prefix_search_by(attribute, key)
     key = downcase_key(key)
-    contacts = @contacts.select { |contact| contact.last_name.downcase == key }
-    puts contacts
-    return contacts
-  end
-
-  def complete_search_by_phone_number(key)
-    key = downcase_key(key)
-    contacts = @contacts.select { |contact| contact.last_name.downcase == key }
-    puts contacts
-    return contacts
-  end
-
-  def prefix_search_by_first_name(key)
-    key = downcase_key(key)
-    contacts = @contacts.select { |contact| contact.first_name.downcase.start_with?(key) }
-    puts contacts
-    return contacts
-  end
-
-  def prefix_search_by_last_name(key)
-    key = downcase_key(key)
-    contacts = @contacts.select { |contact| contact.last_name.downcase.start_with?(key) }
-    puts contacts
-    return contacts
-  end
-
-  def prefix_search_by_phone_number(key)
-    key = downcase_key(key)
-    contacts = @contacts.select { |contact| contact.last_name.downcase.start_with?(key) }
-    puts contacts
-    return contacts
+    @contacts.select { |contact| contact.send(attribute).downcase.start_with?(key) }
   end
 
   private
 
   def downcase_key(key)
-    key.to_str.downcase
+    key.downcase
   end
 end
